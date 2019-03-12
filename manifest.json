@@ -1,18 +1,19 @@
 {
-  "manifest_version": 2,
-  "version": "0.1",
   "name": "Colavim",
+  "version": "0.1",
+  "manifest_version": 2,
   "description": "Enable Vim in Google Colab",
-  "icons": { "48": "logo.png" },
+  "icons": {
+    "48": "logo.png"
+  },
   "content_scripts": [
     {
-      "matches": ["https://colab.research.google.com/*"],
+      "matches": [
+        "https://colab.research.google.com/*"
+      ],
       "js": ["contentscript.js"],
       "run_at": "document_idle"
     }
   ],
-  "browser_action": {
-      "default_title": "Colavim"
-  },
   "web_accessible_resources": ["main.js"]
 }
