@@ -14,7 +14,6 @@
   ],
   "browser_action": {
       "default_title": "Colavim",
-      "default_icon": "logo.png"
   },
   "web_accessible_resources": ["main.js"]
 }
