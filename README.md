@@ -1,8 +1,11 @@
-# autovim
+# Colavim
 
-Permanently enable vim mode in CodeMirror elements like those in Jupyter Notebooks and Google Colab.
+A Chrome extension to enable Vim in Google Colab
 
-I've published `autovim` to the Chrome extension store. It works perfectly as far as I have found with permanently visible `CodeMirror` elements, but is still flaky with `CodeMirror` elements that hide and show like those for Markdown in Jupyter.
-
-https://chrome.google.com/webstore/detail/autovim/licohjbphilmljmjonhiifkldfahnmja?authUser=0&hl=en-US
+## Installation
+1. Clone this repository
+1. Open `chrome://extensions` on Chrome
+1. Enable "Developer mode"
+1. Click "Load unpacked"
+1. Select the folder that was just cloned
 

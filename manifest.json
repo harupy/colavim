@@ -2,22 +2,19 @@
   
   "manifest_version": 2,
   "version": "0.1",
-  "name": "Autovim",
-
-  "description": "Always enable vim in Colab. Also forces vim on any other website that uses CodeMirror elements.",
-
-  "author": "Thomson Comer <thomcom@gmail.com>",
-  "icons": { "128": "icon_128.png" },
+  "name": "Colavim",
+  "description": "Enable Vim in Google Colab",
+  "icons": { "48": "logo.png" },
   "content_scripts": [
     {
       "matches": ["https://colab.research.google.com/*"],
       "js": ["contentscript.js"],
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
   ],
   "browser_action": {
-      "default_title": "Autovim",
-      "default_icon": "icon_128.png"
+      "default_title": "Colavim",
+      "default_icon": "logo.png"
   },
-  "web_accessible_resources": ["autovim.js"]
+  "web_accessible_resources": ["main.js"]
 }
