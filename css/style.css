@@ -1,0 +1,5 @@
+div.CodeMirror span.CodeMirror-matchingbracket {
+  color: red !important;
+  text-decoration: none;
+  font-weight: bold;
+}

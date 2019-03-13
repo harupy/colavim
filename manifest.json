@@ -11,9 +11,10 @@
       "matches": [
         "https://colab.research.google.com/*"
       ],
-      "js": ["contentscript.js"],
+      "js": ["js/contentscript.js"],
+      "css": ["css/style.css"],
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources": ["main.js"]
+  "web_accessible_resources": ["js/*"]
 }

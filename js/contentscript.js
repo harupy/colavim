@@ -1,3 +1,4 @@
 const s = document.createElement('script');
-s.src = chrome.extension.getURL('./main.js');
+s.setAttribute('type', 'module');
+s.src = chrome.extension.getURL('js/main.js');
 (document.head || document.documentElement).appendChild(s);
