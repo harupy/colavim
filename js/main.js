@@ -25,26 +25,27 @@
 
   const enableSnippet = (cell) => {
     const tabDefaultFunc = cell.CodeMirror.options.extraKeys['Tab'];
+    const snippets = {
+      'inp'     : 'import numpy as np',
+      'iplt'    : 'import matplotlib.pyplot as plt',
+      'ipd'     : 'import pandas as pd',
+      'pdrc'    : 'pd.read_csv()',
+    };
+
     const expandSnippetOrIndent = cm => {
       const cursor = cm.getCursor();
       const cursorLine= cm.getLine(cursor.line);
       const cursorLeft = cursorLine.slice(0, cursor.ch);
       const regex = /[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/;
-      const match = cursorLeft.match(regex)
+      const match = cursorLeft.match(regex);
       if (!match) {
         tabDefaultFunc(cm);
         return
       }
+
       const prefix = match[1];
       const head = {line: cursor.line, ch: cursor.ch - prefix.length};
-    
-      const snippets = {
-        'inp'     : 'import numpy as np',
-        'iplt'    : 'import matplotlib.pyplot as plt',
-        'ipd'     : 'import pandas as pd',
-        'pdrc'    : 'pd.read_csv()',
-      };
-    
+      
       if (prefix in snippets) {
         const body = snippets[prefix];
         cm.replaceRange(body, head, cursor);
@@ -56,6 +57,26 @@
         tabDefaultFunc(cm);
       }
     }
+
+    const showSnippetHint = cm => {
+      const hintList = Object.keys(snippets).map(key => {
+        return {
+          text: snippets[key],
+          displayText: `${key.padEnd(7, ' ')}: ${snippets[key]}`
+        }
+      });
+      cm.showHint({
+        hint: () => {
+          return {
+            list: hintList,
+            from: {line: 0, ch: 0},
+            to: {line: 0, ch: 0}
+          }
+        }
+      });
+    }
+
+    cell.CodeMirror.options.extraKeys['Ctrl-H'] = showSnippetHint;
     cell.CodeMirror.options.extraKeys['Tab'] = expandSnippetOrIndent;
   }
 
@@ -97,3 +118,6 @@
   CodeMirror.Vim.map("k", "gk", "normal")
   CodeMirror.Vim.map("K", "gg", "normal")
 })();
+
+
+
