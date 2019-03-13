@@ -26,16 +26,18 @@
   const enableSnippet = (cell) => {
     const tabDefaultFunc = cell.CodeMirror.options.extraKeys['Tab'];
     const snippets = {
-      'inp'     : 'import numpy as np',
-      'iplt'    : 'import matplotlib.pyplot as plt',
-      'ipd'     : 'import pandas as pd',
+      'inp'     : 'import numpy as np\n',
+      'iplt'    : 'import matplotlib.pyplot as plt\n',
+      'ipd'     : 'import pandas as pd\n',
+      'isb'     : 'import seaborn as sns\n',
+      'itf'     : 'import tensorflow as tf\n',
       'pdrc'    : 'pd.read_csv()',
+      'npp'     : 'import numpy as np\nimport matplotlib.pyplot as plt\nimport pandas as pd\n'
     };
 
     const expandSnippetOrIndent = cm => {
       const cursor = cm.getCursor();
-      const cursorLine= cm.getLine(cursor.line);
-      const cursorLeft = cursorLine.slice(0, cursor.ch);
+      const cursorLeft = cm.getRange({line: cursor.line, ch: 0}, cursor);
       const regex = /[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/;
       const match = cursorLeft.match(regex);
       if (!match) {
@@ -50,34 +52,80 @@
         const body = snippets[prefix];
         cm.replaceRange(body, head, cursor);
         const match = body.match(/\)+$/);
-        if (match) {
-          cm.moveH(-match[0].length, 'char');
-        }
+        if (match) cm.moveH(-match[0].length, 'char');
       } else {
         tabDefaultFunc(cm);
       }
     }
 
     const showSnippetHint = cm => {
-      const hintList = Object.keys(snippets).map(key => {
+      const cursor = cm.getCursor();
+      const cursorLeft = cm.getRange({line: cursor.line, ch: 0}, cursor);
+      const regex = /[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/;
+      const match = cursorLeft.match(regex);
+      const prefix = match ? match[1] : '';
+      const head = {line: cursor.line, ch: cursor.ch - prefix.length};
+      const matchedPrefixes = Object.keys(snippets).filter(k => k.indexOf(prefix) > -1);
+      matchedPrefixes.sort();
+
+      const hintList = matchedPrefixes.map(key => {
+        const displayText = snippets[key].replace('\n', '; ');
+
         return {
           text: snippets[key],
-          displayText: `${key.padEnd(7, ' ')}: ${snippets[key]}`
+          displayText: `${key.padEnd(7, ' ')}: ${displayText.length > 40 ? displayText.slice(0, 40) + '...' : displayText}`
         }
       });
+      
+      const hintFunc = () => {
+        return {
+          list: hintList,
+          from: head,
+          to: cursor
+        }
+      }
+
+      const onPick = (cm) => {
+        const cursor = cm.getCursor();
+        const cursorLeft = cm.getRange({line: cursor.line, ch: 0}, cursor);
+        const match = cursorLeft.match(/\)+$/);
+        if (match) cm.moveH(-match[0].length, 'char');
+      }
+
+      const customKeysFunc = {
+        // default key mappings
+        Up: (completion, handle) => handle.moveFocus(-1),
+        Down: (completion, handle) => handle.moveFocus(1),
+        PageUp: (completion, handle) => handle.moveFocus(-handle.menuSize() + 1, true),
+        PageDown: (completion, handle) => handle.moveFocus(handle.menuSize() - 1, true),
+        Home: (completion, handle) => handle.setFocus(0),
+        End: (completion, handle) => handle.setFocus(handle.length - 1),
+        Enter: (completion, handle) => {handle.pick(); onPick(cm);},
+        Tab: (completion, handle) => {handle.pick(); onPick(cm);},
+        Esc: (completion, handle) => handle.close(),
+
+        // new key mappings
+        J: (completion, handle) => handle.moveFocus(1),
+        K: (completion, handle) => handle.moveFocus(-1),
+      }
+
       cm.showHint({
-        hint: () => {
-          return {
-            list: hintList,
-            from: {line: 0, ch: 0},
-            to: {line: 0, ch: 0}
-          }
-        }
+        hint: hintFunc,
+        completeSingle: false,
+        customKeys: customKeysFunc,
+        alignWithWord: false,
       });
+    }
+
+    const conCursorActivity = cm => {
+      if (cm.state.completionActive) {
+        showSnippetHint(cm);
+      }
     }
 
     cell.CodeMirror.options.extraKeys['Ctrl-H'] = showSnippetHint;
     cell.CodeMirror.options.extraKeys['Tab'] = expandSnippetOrIndent;
+    cell.CodeMirror.on('cursorActivity', conCursorActivity);
   }
 
   const updateCell = cell => {
@@ -118,6 +166,3 @@
   CodeMirror.Vim.map("k", "gk", "normal")
   CodeMirror.Vim.map("K", "gg", "normal")
 })();
-
-
-
