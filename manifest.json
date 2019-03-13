@@ -16,5 +16,5 @@
       "run_at": "document_idle"
     }
   ],
-  "web_accessible_resources": ["js/*"]
+  "web_accessible_resources": ["js/main.js"]
 }
