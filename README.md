@@ -11,7 +11,7 @@ A Chrome extension to enhance the editor functionality in Google Colab
 1. Click "Load unpacked"
 1. Select the folder that was just cloned
 
-## Features
+## Supported Features
 - Snippet
 - Snippet Hint
 - Vim
@@ -26,10 +26,10 @@ A Chrome extension to enhance the editor functionality in Google Colab
 ## Supported Snippets
 |Prefix|Body|
 |:-|:-|
-|`inp` |'import numpy as np'|
-|`iplt`|'import matplotlib.pyplot as plt'|
-|`ipd` |'import pandas as pd'|
-|`isb` |'import seaborn as sns'|
-|`itf` |'import tensorflow as tf'|
-|`pdrc`|'pd.read_csv()'|
-|`npp` |'import numpy as np<br>import matplotlib.pyplot as plt<br>import pandas as pd|
+|`inp` |import numpy as np|
+|`iplt`|import matplotlib.pyplot as plt|
+|`ipd` |import pandas as pd|
+|`isb` |import seaborn as sns|
+|`itf` |import tensorflow as tf|
+|`pdrc`|pd.read_csv()'|
+|`npp` |import numpy as np<br>import matplotlib.pyplot as plt<br>import pandas as pd|

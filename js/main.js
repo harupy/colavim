@@ -68,10 +68,11 @@
 
       const hintList = matchedPrefixes.map(key => {
         const displayText = snippets[key].replace('\n', '; ');
+        const displayTextTrunc = displayText.length > 40 ? displayText.slice(0, 40) + '...' : displayText;
 
         return {
           text: snippets[key],
-          displayText: `${key.padEnd(7, ' ')}: ${displayText.length > 40 ? displayText.slice(0, 40) + '...' : displayText}`
+          displayText: `${key.padEnd(7, ' ')}: ${displayTextTrunc}`
         }
       });
       
