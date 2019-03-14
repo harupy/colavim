@@ -38,8 +38,7 @@
     const expandSnippetOrIndent = cm => {
       const cursor = cm.getCursor();
       const cursorLeft = cm.getRange({line: cursor.line, ch: 0}, cursor);
-      const regex = /[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/;
-      const match = cursorLeft.match(regex);
+      const match = cursorLeft.match(/[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/);
       if (!match) {
         tabDefaultFunc(cm);
         return
@@ -61,8 +60,7 @@
     const showSnippetHint = cm => {
       const cursor = cm.getCursor();
       const cursorLeft = cm.getRange({line: cursor.line, ch: 0}, cursor);
-      const regex = /[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/;
-      const match = cursorLeft.match(regex);
+      const match = cursorLeft.match(/[^a-zA-Z0-9_]?([a-zA-Z0-9_]+)$/);
       const prefix = match ? match[1] : '';
       const head = {line: cursor.line, ch: cursor.ch - prefix.length};
       const matchedPrefixes = Object.keys(snippets).filter(k => k.indexOf(prefix) > -1);
@@ -121,7 +119,7 @@
       if (cm.state.completionActive) {
         showSnippetHint(cm);
       }
-    }
+    };
 
     cell.CodeMirror.options.extraKeys['Ctrl-H'] = showSnippetHint;
     cell.CodeMirror.options.extraKeys['Tab'] = expandSnippetOrIndent;
