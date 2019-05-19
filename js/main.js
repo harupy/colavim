@@ -26,6 +26,7 @@
     const defaultEnterFunc = cell.CodeMirror.options.extraKeys['Enter'];
 
     const newLineAndIndent = cm => {
+      // If the current line has indent spaces, keep the indent and open a lew line below
       const { line } = cm.getCursor();
       const cursorLine = cm.getLine(line);
       const match = cursorLine.match(/^\s+/);
@@ -111,7 +112,7 @@
       };
 
       const customKeysFunc = {
-        // default key mappings
+        // Default key mappings
         Up: (completion, handle) => handle.moveFocus(-1),
         Down: (completion, handle) => handle.moveFocus(1),
         PageUp: (completion, handle) => handle.moveFocus(-handle.menuSize() + 1, true),
@@ -128,7 +129,7 @@
         },
         Esc: (completion, handle) => handle.close(),
 
-        // new key mappings
+        // New key mappings
         J: (completion, handle) => handle.moveFocus(1),
         K: (completion, handle) => handle.moveFocus(-1),
       };
