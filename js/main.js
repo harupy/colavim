@@ -183,18 +183,23 @@
   document.addEventListener('keyup', onKeyUp);
 
   // Vim keybindings
-  CodeMirror.Vim.map('jk', '<Esc>', 'insert');
-  CodeMirror.Vim.map('jk', '<Esc>', 'insert');
-  CodeMirror.Vim.map('J', 'G', 'visual');
-  CodeMirror.Vim.map('K', 'gg', 'visual');
-  CodeMirror.Vim.map('H', '^', 'visual');
-  CodeMirror.Vim.map('L', '$', 'visual');
-  CodeMirror.Vim.map('j', 'gj', 'visual');
-  CodeMirror.Vim.map('k', 'gk', 'visual');
+  // Normal mode
   CodeMirror.Vim.map('J', 'G', 'normal');
   CodeMirror.Vim.map('H', '^', 'normal');
   CodeMirror.Vim.map('L', '$', 'normal');
   CodeMirror.Vim.map('j', 'gj', 'normal');
   CodeMirror.Vim.map('k', 'gk', 'normal');
   CodeMirror.Vim.map('K', 'gg', 'normal');
+
+  // Insert mode
+  CodeMirror.Vim.map('jk', '<Esc>', 'insert');
+  CodeMirror.Vim.map('jk', '<Esc>', 'insert');
+
+  // Visual mode
+  CodeMirror.Vim.map('J', 'G', 'visual');
+  CodeMirror.Vim.map('K', 'gg', 'visual');
+  CodeMirror.Vim.map('H', '^', 'visual');
+  CodeMirror.Vim.map('L', '$', 'visual');
+  CodeMirror.Vim.map('j', 'gj', 'visual');
+  CodeMirror.Vim.map('k', 'gk', 'visual');
 })();
