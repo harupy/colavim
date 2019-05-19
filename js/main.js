@@ -38,7 +38,7 @@
         cm.replaceSelection(indent + '  ');
       } else if (['(', '{', '['].includes(charOnCursorLeft)) {
         cm.execCommand('openLine');
-        cm.replaceSelection(indent);
+        cm.replaceSelection(indent) + '  ';
       } else {
         cm.replaceSelection(indent);
       }
@@ -166,7 +166,7 @@
     enableSnippet(cell);
   };
 
-  const onKeyUp = () => {
+  const updateFocusedCell = () => {
     const cellEditing = document.querySelector('div.CodeMirror-focused');
     if (cellEditing && !cellEditing.CodeMirror.getOption('vimMode')) {
       updateCell(cellEditing);
@@ -179,25 +179,25 @@
     });
   };
 
-  setTimeout(updateExistingCells, 1000);
-  document.addEventListener('keyup', onKeyUp);
+  document.addEventListener('keyup', updateFocusedCell);
+  document.addEventListener('click', updateFocusedCell);
 
   // Vim keybindings
   // Normal mode
-  CodeMirror.Vim.map('J', 'G', 'normal');
+  CodeMirror.Vim.map('J', '}', 'normal');
   CodeMirror.Vim.map('H', '^', 'normal');
   CodeMirror.Vim.map('L', '$', 'normal');
   CodeMirror.Vim.map('j', 'gj', 'normal');
   CodeMirror.Vim.map('k', 'gk', 'normal');
-  CodeMirror.Vim.map('K', 'gg', 'normal');
+  CodeMirror.Vim.map('K', '{', 'normal');
 
   // Insert mode
   CodeMirror.Vim.map('jk', '<Esc>', 'insert');
   CodeMirror.Vim.map('jk', '<Esc>', 'insert');
 
   // Visual mode
-  CodeMirror.Vim.map('J', 'G', 'visual');
-  CodeMirror.Vim.map('K', 'gg', 'visual');
+  CodeMirror.Vim.map('J', '}', 'visual');
+  CodeMirror.Vim.map('K', '{', 'visual');
   CodeMirror.Vim.map('H', '^', 'visual');
   CodeMirror.Vim.map('L', '$', 'visual');
   CodeMirror.Vim.map('j', 'gj', 'visual');
