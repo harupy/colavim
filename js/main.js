@@ -11,8 +11,8 @@
       const cursorLine = cm.getLine(line);
       const match = cursorLine.match(/^\s+/);
       if (match) {
-        const indentSpaces = match[0];
-        if (indentSpaces.length % 2 === 0 && ch === indentSpaces.length && ch !== 0) {
+        const indentLength = match[0].length;
+        if (indentLength % 2 === 0 && ch === indentLength && ch !== 0) {
           cm.deleteH(-2, 'char');
           return;
         }
@@ -23,18 +23,24 @@
   };
 
   const enableTwoSpacesIndent = cell => {
-    const defaultEnterFunc = cell.CodeMirror.options.extraKeys['Enter'];
-
     const newLineAndIndent = cm => {
       // If the current line has indent spaces, keep the indent and open a lew line below
-      const { line } = cm.getCursor();
+      const { line, ch } = cm.getCursor();
       const cursorLine = cm.getLine(line);
       const match = cursorLine.match(/^\s+/);
-      if (match) {
-        const indentSpaces = match[0];
+      const indent = match ? match[0] : '';
+      const charOnCursorLeft = cm.getRange({ line, ch: ch - 1 }, { line, ch });
+      cm.execCommand('openLine');
+      cm.execCommand('goLineDown');
+      cm.execCommand('goLineLeft');
+
+      if (charOnCursorLeft === ':') {
+        cm.replaceSelection(indent + '  ');
+      } else if (['(', '{', '['].includes(charOnCursorLeft)) {
         cm.execCommand('openLine');
-        cm.execCommand('goLineDown');
-        cm.replaceSelection(indentSpaces);
+        cm.replaceSelection(indent);
+      } else {
+        cm.replaceSelection(indent);
       }
     };
     cell.CodeMirror.options.extraKeys['Enter'] = newLineAndIndent;
