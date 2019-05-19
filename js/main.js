@@ -36,9 +36,9 @@
 
       if (charOnCursorLeft === ':') {
         cm.replaceSelection(indent + '  ');
-      } else if (['(', '{', '['].includes(charOnCursorLeft)) {
-        cm.execCommand('openLine');
-        cm.replaceSelection(indent) + '  ';
+        // } else if (['(', '{', '['].includes(charOnCursorLeft)) {
+        //   cm.execCommand('openLine');
+        //   cm.replaceSelection(indent) + '  ';
       } else {
         cm.replaceSelection(indent);
       }
